@@ -11,7 +11,8 @@
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
     "sails-mysql": "^2.0.0",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "5.16.0"
