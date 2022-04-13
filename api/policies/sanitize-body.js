@@ -10,6 +10,14 @@ module.exports = async function (req, res, proceed) {
         req.body[property] = trim(escape(req.body[property]));
       }
     });
+
+    if (req.body.categories && !_.isEmpty(req.body.categories)) {
+      _.each(req.body.categories, (category) => {
+        if (category.title && typeof category.title === 'string') {
+          category.title = trim(escape(category.title));
+        }
+      });
+    }
   }
 
   return proceed();

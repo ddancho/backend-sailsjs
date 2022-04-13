@@ -26,6 +26,12 @@ module.exports = {
       min: 0,
       max: 10,
     },
+    categories: {
+      type: 'json',
+      custom: function (value) {
+        return sails.helpers.isCategoriesValid(value);
+      },
+    },
   },
 
   exits: {
