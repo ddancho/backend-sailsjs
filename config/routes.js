@@ -9,6 +9,6 @@
  */
 
 module.exports.routes = {
-
-
+  'POST /api/v1/movies/store': { action: 'movies/store' },
+  'POST /api/v1/categories/store': { action: 'categories/store' },
 };
