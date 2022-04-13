@@ -19,10 +19,22 @@ module.exports = {
       defaultsTo: false,
       columnName: 'is_active',
     },
+    slug: {
+      type: 'string',
+    },
 
     movies: {
       collection: 'movie',
       via: 'categories',
     },
+  },
+
+  beforeCreate: async function (values, proceed) {
+    // create slug
+    const slug = await sails.helpers.createSlug(values.title);
+
+    values.slug = slug;
+
+    return proceed();
   },
 };

@@ -32,10 +32,22 @@ module.exports = {
       max: 10,
       columnType: 'integer unsigned',
     },
+    slug: {
+      type: 'string',
+    },
 
     categories: {
       collection: 'category',
       via: 'movies',
     },
+  },
+
+  beforeCreate: async function (values, proceed) {
+    // create slug
+    const slug = await sails.helpers.createSlug(values.title);
+
+    values.slug = slug;
+
+    return proceed();
   },
 };
