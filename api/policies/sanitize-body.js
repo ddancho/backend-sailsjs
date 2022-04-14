@@ -11,12 +11,45 @@ module.exports = async function (req, res, proceed) {
       }
     });
 
-    if (req.body.categories && !_.isEmpty(req.body.categories)) {
+    if (req.body.categories) {
+      let categories = [];
+
+      try {
+        const ctgs = await Category.find({ select: ['title'] });
+        const arr = JSON.parse(JSON.stringify(ctgs));
+        categories = _.map(arr, (category) => category.title);
+      } catch (error) {
+        return res.status(500).json({
+          message: 'Something went wrong',
+          error,
+        });
+      }
+
+      let result = sails.helpers.isCategoriesValid(req.body.categories);
+
+      if (!result) {
+        return res.status(400).json({
+          message: 'Categories validation fails',
+          error:
+            'Categories are empty or category object missing valid title property',
+        });
+      }
+
       _.each(req.body.categories, (category) => {
-        if (category.title && typeof category.title === 'string') {
-          category.title = trim(escape(category.title));
+        category.title = trim(escape(category.title));
+        if (!categories.includes(category.title)) {
+          // break out
+          result = false;
+          return false;
         }
       });
+
+      if (!result) {
+        return res.status(400).json({
+          message: 'Category title validation fails',
+          error: 'Category title is incorrect',
+        });
+      }
     }
   }
 

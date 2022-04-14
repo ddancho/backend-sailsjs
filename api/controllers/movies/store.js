@@ -28,9 +28,7 @@ module.exports = {
     },
     categories: {
       type: 'json',
-      custom: function (value) {
-        return sails.helpers.isCategoriesValid(value);
-      },
+      required: true,
     },
   },
 
