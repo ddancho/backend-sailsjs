@@ -18,5 +18,6 @@ module.exports.policies = {
 
   // '*': true,
   'movies/store': 'sanitize-body',
+  'movies/show': ['sanitize-params', 'find-movie'],
   'categories/store': 'sanitize-body',
 };
