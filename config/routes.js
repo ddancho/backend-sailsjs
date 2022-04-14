@@ -12,6 +12,8 @@ module.exports.routes = {
   'GET /api/v1/movies': { action: 'movies/index' },
   'GET /api/v1/movies/:id': { action: 'movies/show' },
 
+  'DELETE /api/v1/movies/:id': { action: 'movies/delete' },
+
   'POST /api/v1/movies/store': { action: 'movies/store' },
   'POST /api/v1/categories/store': { action: 'categories/store' },
 };

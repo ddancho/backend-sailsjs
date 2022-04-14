@@ -1,14 +1,14 @@
 module.exports = {
   friendlyName: 'Show',
 
-  description: 'Show movies.',
+  description: 'Show movie.',
 
   inputs: {},
 
   exits: {
     success: {
       statusCode: 200,
-      description: 'Fetching all movies with their categories',
+      description: 'Fetching requested movie with categories',
     },
     error: {
       statusCode: 500,
