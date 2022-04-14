@@ -13,10 +13,11 @@ module.exports = async function (req, res, proceed) {
 
     if (req.body.categories) {
       let categories = [];
+      let arr = [];
 
       try {
         const ctgs = await Category.find({ select: ['title'] });
-        const arr = JSON.parse(JSON.stringify(ctgs));
+        arr = JSON.parse(JSON.stringify(ctgs));
         categories = _.map(arr, (category) => category.title);
       } catch (error) {
         return res.status(500).json({
@@ -42,6 +43,8 @@ module.exports = async function (req, res, proceed) {
           result = false;
           return false;
         }
+        // set category id
+        category.id = _.find(arr, (item) => item.title === category.title).id;
       });
 
       if (!result) {

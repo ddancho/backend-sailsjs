@@ -45,11 +45,23 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     try {
-      await Movie.create({
-        title: inputs.title,
-        description: inputs.description,
-        author: inputs.author,
-        rating: inputs.rating,
+      await sails.getDatastore().transaction(async (db) => {
+        const movie = await Movie.create({
+          title: inputs.title,
+          description: inputs.description,
+          author: inputs.author,
+          rating: inputs.rating,
+        })
+          .fetch()
+          .usingConnection(db);
+
+        const ids = _.map(inputs.categories, 'id');
+
+        await Movie.addToCollection(
+          movie.id,
+          'categories',
+          ids
+        ).usingConnection(db);
       });
 
       return exits.success({
