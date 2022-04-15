@@ -24,4 +24,5 @@ module.exports.policies = {
   'categories/store': 'sanitize-body',
   'categories/show': ['sanitize-params', 'find-category'],
   'categories/delete': ['sanitize-params', 'find-category'],
+  'categories/update': ['sanitize-body', 'sanitize-params', 'find-category'],
 };

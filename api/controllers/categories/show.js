@@ -1,7 +1,7 @@
 module.exports = {
   friendlyName: 'Show',
 
-  description: 'Show categories.',
+  description: 'Show category.',
 
   inputs: {},
 

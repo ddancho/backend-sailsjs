@@ -1,7 +1,7 @@
 module.exports = {
   friendlyName: 'Delete',
 
-  description: 'Delete categories.',
+  description: 'Delete category.',
 
   inputs: {},
 
