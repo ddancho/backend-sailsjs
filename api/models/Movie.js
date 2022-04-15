@@ -60,12 +60,32 @@ module.exports = {
     return proceed();
   },
 
-  filter: async function ({ comparison, duration }) {
+  filter: async function ({ comparison, duration, page, pageSize }) {
     const direction = 'movieLength' + (comparison === '>' ? ' DESC' : ' ASC');
+    const skip = (page - 1) * pageSize;
 
-    return await Movie.find({
+    const totalRecords = Movie.count({
+      where: { movieLength: { [comparison]: duration } },
+    });
+
+    const records = Movie.find({
       where: { movieLength: { [comparison]: duration } },
       sort: [direction],
+      skip: skip,
+      limit: pageSize,
     }).populate('categories');
+
+    try {
+      const data = await Promise.all([totalRecords, records]);
+
+      return {
+        totalRecords: data[0],
+        totalPages: Math.ceil(data[0] / pageSize),
+        pageSize: Number(pageSize),
+        records: data[1],
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 };
