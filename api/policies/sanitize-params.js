@@ -12,7 +12,7 @@ module.exports = async function (req, res, proceed) {
     });
 
     if (req.params.id) {
-      req.movieId = req.params.id;
+      req.findId = req.params.id;
     }
   }
 

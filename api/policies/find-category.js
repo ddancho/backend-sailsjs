@@ -1,28 +1,28 @@
 module.exports = async function (req, res, proceed) {
   if (req.findId) {
     const id = req.findId;
-    let movie = null;
+    let category = null;
 
     if (id.match(/^[0-9]+$/) !== null) {
       // string contains only numbers so it must be a id
-      // find movie by id
-      movie = await Movie.findOne({
+      // find category by id
+      category = await Category.findOne({
         where: { id },
-      }).populate('categories');
+      }).populate('movies');
     } else {
-      // find movie by slug
-      movie = await Movie.findOne({
+      // find category by slug
+      category = await Category.findOne({
         where: { slug: id },
-      }).populate('categories');
+      }).populate('movies');
     }
 
-    if (!movie) {
+    if (!category) {
       return res.status(400).json({
-        message: `Failed to find a movie with the identifier ${id}`,
+        message: `Failed to find a category with the identifier ${id}`,
       });
     }
 
-    req.movie = movie;
+    req.category = category;
   }
 
   return proceed();
