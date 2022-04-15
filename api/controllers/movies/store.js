@@ -26,6 +26,13 @@ module.exports = {
       min: 0,
       max: 10,
     },
+    movieLength: {
+      type: 'number',
+      required: true,
+      isInteger: true,
+      min: 1,
+      max: 600,
+    },
     categories: {
       type: 'json',
       required: true,
@@ -51,6 +58,7 @@ module.exports = {
           description: inputs.description,
           author: inputs.author,
           rating: inputs.rating,
+          movieLength: inputs.movieLength,
         })
           .fetch()
           .usingConnection(db);

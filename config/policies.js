@@ -21,6 +21,7 @@ module.exports.policies = {
   'movies/show': ['sanitize-params', 'find-movie'],
   'movies/delete': ['sanitize-params', 'find-movie'],
   'movies/update': ['sanitize-body', 'sanitize-params', 'find-movie'],
+  'movies/filter': 'filter-movies',
   'categories/store': 'sanitize-body',
   'categories/show': ['sanitize-params', 'find-category'],
   'categories/delete': ['sanitize-params', 'find-category'],

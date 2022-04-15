@@ -35,6 +35,15 @@ module.exports = {
     slug: {
       type: 'string',
     },
+    movieLength: {
+      type: 'number',
+      required: true,
+      isInteger: true,
+      min: 1,
+      max: 600,
+      columnName: 'movie_length',
+      columnType: 'integer unsigned',
+    },
 
     categories: {
       collection: 'category',
@@ -49,5 +58,14 @@ module.exports = {
     values.slug = slug;
 
     return proceed();
+  },
+
+  filter: async function ({ comparison, duration }) {
+    const direction = 'movieLength' + (comparison === '>' ? ' DESC' : ' ASC');
+
+    return await Movie.find({
+      where: { movieLength: { [comparison]: duration } },
+      sort: [direction],
+    }).populate('categories');
   },
 };
