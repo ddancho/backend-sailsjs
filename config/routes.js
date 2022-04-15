@@ -18,4 +18,5 @@ module.exports.routes = {
   'GET /api/v1/categories': { action: 'categories/index' },
   'GET /api/v1/categories/:id': { action: 'categories/show' },
   'POST /api/v1/categories/store': { action: 'categories/store' },
+  'DELETE /api/v1/categories/:id': { action: 'categories/delete' },
 };
