@@ -51,6 +51,10 @@ module.exports = {
     },
   },
 
+  customToJSON: function () {
+    return _.omit(this, ['createdAt', 'updatedAt']);
+  },
+
   beforeCreate: async function (values, proceed) {
     // create slug
     const slug = await sails.helpers.createSlug(values.title);
