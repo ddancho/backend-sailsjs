@@ -23,4 +23,5 @@ module.exports.routes = {
   'DELETE /api/v1/categories/:id': { action: 'categories/delete' },
 
   'POST /api/v1/users/register': { action: 'users/register' },
+  'POST /api/v1/users/login': { action: 'users/login' },
 };

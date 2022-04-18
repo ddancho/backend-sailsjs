@@ -34,6 +34,10 @@ module.exports = {
     },
   },
 
+  customToJSON: function () {
+    return _.omit(this, ['password']);
+  },
+
   register: async function ({ username, email, password }) {
     try {
       const salt = await bcrypt.genSalt(10);
@@ -44,6 +48,27 @@ module.exports = {
         email: email,
         password: hashPassword,
       });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  login: async function ({ email, password }) {
+    try {
+      const user = await User.findOne({
+        where: { email },
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) {
+        return null;
+      }
+
+      return user;
     } catch (error) {
       throw new Error(error);
     }
