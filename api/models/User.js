@@ -55,20 +55,38 @@ module.exports = {
 
   login: async function ({ email, password }) {
     try {
-      const user = await User.findOne({
-        where: { email },
+      let user = null;
+      let accessTokens = null;
+
+      await sails.getDatastore().transaction(async (db) => {
+        user = await User.findOne({
+          where: { email },
+        }).usingConnection(db);
+
+        if (!user) {
+          return;
+        }
+        const isValid = await bcrypt.compare(password, user.password);
+        if (!isValid) {
+          user = null;
+          return;
+        }
+
+        accessTokens = await sails.helpers.generateJwtToken(
+          user.username,
+          user.email
+        );
+
+        await Token.create({
+          token: accessTokens.refreshToken,
+          user: user.id,
+        }).usingConnection(db);
       });
 
-      if (!user) {
-        return null;
-      }
-
-      const isValid = await bcrypt.compare(password, user.password);
-      if (!isValid) {
-        return null;
-      }
-
-      return user;
+      return {
+        user,
+        accessTokens,
+      };
     } catch (error) {
       throw new Error(error);
     }

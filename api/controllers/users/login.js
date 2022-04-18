@@ -32,7 +32,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     try {
-      const user = await User.login(inputs);
+      const { user, accessTokens } = await User.login(inputs);
 
       if (!user) {
         return exits.notFound({
@@ -43,6 +43,7 @@ module.exports = {
       return exits.success({
         message: 'User successfully logged in',
         data: user,
+        accessTokens,
       });
     } catch (error) {
       return exits.error({
