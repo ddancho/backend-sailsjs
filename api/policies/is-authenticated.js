@@ -9,24 +9,32 @@ module.exports = async function (req, res, proceed) {
 
   const token = req.headers.authorization.split(' ')[1];
 
-  jwt.verify(token, sails.config.jwtTokenSecret, async (err, payload) => {
-    if (err) {
-      return res.status(401).json({
-        message: 'Invalid authentication credentials',
+  const authUser = jwt.verify(
+    token,
+    sails.config.jwtTokenSecret,
+    async (err, payload) => {
+      if (err) {
+        return res.status(401).json({
+          message: 'Invalid authentication credentials',
+        });
+      }
+      const user = await User.findOne({
+        where: {
+          email: payload.email,
+        },
       });
-    }
-    const user = await User.findOne({
-      where: {
-        email: payload.email,
-      },
-    });
 
-    if (!user) {
-      return res.status(401).json({
-        message: 'Invalid authentication credentials',
-      });
+      if (!user) {
+        return res.status(401).json({
+          message: 'Invalid authentication credentials',
+        });
+      }
+
+      return user;
     }
-  });
+  );
+
+  req.authUser = await Promise.resolve(authUser);
 
   return proceed();
 };

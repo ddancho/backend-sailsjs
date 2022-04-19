@@ -29,4 +29,5 @@ module.exports.policies = {
   'users/register': ['sanitize-body', 'check-user-registration'],
   'users/login': 'sanitize-body',
   'users/logout': ['sanitize-body', 'is-authenticated'],
+  'users/new-access-tokens': ['sanitize-body', 'is-authenticated'],
 };
