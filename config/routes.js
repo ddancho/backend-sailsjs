@@ -24,4 +24,5 @@ module.exports.routes = {
 
   'POST /api/v1/users/register': { action: 'users/register' },
   'POST /api/v1/users/login': { action: 'users/login' },
+  'POST /api/v1/users/logout': { action: 'users/logout' },
 };

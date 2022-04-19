@@ -1,5 +1,6 @@
 const trim = require('validator/lib/trim');
 const escape = require('validator/lib/escape');
+const isJwt = require('validator/lib/isJWT');
 
 module.exports = async function (req, res, proceed) {
   if (req.body) {
@@ -51,6 +52,25 @@ module.exports = async function (req, res, proceed) {
         return res.status(400).json({
           message: 'Category title validation fails',
           error: 'Category title is incorrect',
+        });
+      }
+    }
+
+    if (req.body.refreshToken) {
+      if (!isJwt(req.body.refreshToken)) {
+        return res.status(400).json({
+          message: 'RefreshToken validation fails',
+        });
+      }
+      const refreshToken = await Token.findOne({
+        where: {
+          token: req.body.refreshToken,
+        },
+      });
+
+      if (!refreshToken) {
+        return res.status(401).json({
+          message: 'Invalid authentication credentials',
         });
       }
     }

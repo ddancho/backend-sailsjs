@@ -28,4 +28,5 @@ module.exports.policies = {
   'categories/update': ['sanitize-body', 'sanitize-params', 'find-category'],
   'users/register': ['sanitize-body', 'check-user-registration'],
   'users/login': 'sanitize-body',
+  'users/logout': ['sanitize-body', 'is-authenticated'],
 };
