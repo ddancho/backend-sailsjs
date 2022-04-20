@@ -26,4 +26,6 @@ module.exports.routes = {
   'POST /api/v1/users/login': { action: 'users/login' },
   'POST /api/v1/users/logout': { action: 'users/logout' },
   'POST /api/v1/users/newAccessTokens': { action: 'users/new-access-tokens' },
+  'GET /api/v1/users/signInUser': { action: 'users/sign-in-user' },
+  'POST /api/v1/users/revokeToken': { action: 'users/revoke-token' },
 };

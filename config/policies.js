@@ -30,4 +30,6 @@ module.exports.policies = {
   'users/login': 'sanitize-body',
   'users/logout': ['sanitize-body', 'is-authenticated'],
   'users/new-access-tokens': ['sanitize-body', 'is-authenticated'],
+  'users/sign-in-user': 'is-authenticated',
+  'users/revoke-token': ['sanitize-body', 'is-authenticated'],
 };
