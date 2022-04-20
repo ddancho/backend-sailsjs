@@ -9,14 +9,12 @@ module.exports = async function (req, res, proceed) {
 
   const token = req.headers.authorization.split(' ')[1];
 
-  const authUser = jwt.verify(
+  const verify = jwt.verify(
     token,
     sails.config.jwtTokenSecret,
     async (err, payload) => {
       if (err) {
-        return res.status(401).json({
-          message: 'Invalid authentication credentials',
-        });
+        return { error: err };
       }
       const user = await User.findOne({
         where: {
@@ -25,16 +23,23 @@ module.exports = async function (req, res, proceed) {
       });
 
       if (!user) {
-        return res.status(401).json({
-          message: 'Invalid authentication credentials',
-        });
+        return { error: 'User not found' };
       }
 
-      return user;
+      return { user };
     }
   );
 
-  req.authUser = await Promise.resolve(authUser);
+  const result = (await Promise.all([verify]))[0];
+
+  if (result['error']) {
+    return res.status(401).json({
+      message: 'Invalid authentication credentials',
+    });
+  } else {
+    const { ...authUser } = result['user'];
+    req.authUser = authUser;
+  }
 
   return proceed();
 };
