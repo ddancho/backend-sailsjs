@@ -44,6 +44,11 @@ module.exports = {
       columnName: 'movie_length',
       columnType: 'integer unsigned',
     },
+    movieDetails: {
+      type: 'json',
+      defaultsTo: '{}',
+      columnName: 'movie_details',
+    },
 
     categories: {
       collection: 'category',

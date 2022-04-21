@@ -1,6 +1,7 @@
 const trim = require('validator/lib/trim');
 const escape = require('validator/lib/escape');
 const isJwt = require('validator/lib/isJWT');
+const isJSON = require('validator/lib/isJSON');
 
 module.exports = async function (req, res, proceed) {
   if (req.body) {
@@ -73,6 +74,18 @@ module.exports = async function (req, res, proceed) {
           message: 'Invalid authentication credentials',
         });
       }
+    }
+
+    if (req.body.movieDetails) {
+      if (!isJSON(req.body.movieDetails, { allow_primitives: true })) {
+        return res.status(400).json({
+          message: 'Movie details input validation fails',
+        });
+      }
+
+      req.body.movieDetails = JSON.stringify(req.body.movieDetails);
+    } else {
+      req.body.movieDetails = '{}';
     }
   }
 

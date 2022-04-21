@@ -33,6 +33,9 @@ module.exports = {
       min: 1,
       max: 600,
     },
+    movieDetails: {
+      type: 'json',
+    },
     categories: {
       type: 'json',
       required: true,
@@ -59,6 +62,7 @@ module.exports = {
           author: inputs.author,
           rating: inputs.rating,
           movieLength: inputs.movieLength,
+          movieDetails: inputs.movieDetails,
         })
           .fetch()
           .usingConnection(db);
